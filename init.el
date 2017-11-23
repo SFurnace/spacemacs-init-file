@@ -41,6 +41,8 @@ values."
      better-defaults
      syntax-checking
      (auto-completion :variables
+                      auto-completion-enable-snippets-in-popup t
+                      auto-completion-tab-key-behavior 'complete
                       auto-completion-enable-sort-by-usage t)
      racket
      (python :variables
@@ -48,7 +50,6 @@ values."
      (c-c++ :variables
             c-c++-enable-clang-support t)
      emacs-lisp
-     javascript
      html
      asm
      sql
@@ -183,7 +184,7 @@ values."
    dotspacemacs-display-default-layout nil
    ;; If non nil then the last auto saved layouts are resume automatically upon
    ;; start. (default nil)
-   dotspacemacs-auto-resume-layouts nil
+   dotspacemacs-auto-resume-layouts t
    ;; Size (in MB) above which spacemacs will prompt to open the large file
    ;; literally to avoid performance issues. Opening a file literally means that
    ;; no major mode or minor modes are active. (default is 1)
@@ -317,11 +318,27 @@ you should place your code here."
   ;; default
   (exec-path-from-shell-copy-env "http_proxy")
   (exec-path-from-shell-copy-env "https_proxy")
+
+  ;; macOS
   (bind-keys
    ("s-," . customize)
    ("s-w" . delete-frame)
    :map global-map)
-  (global-company-mode t)
+
+  ;; fortran
+  (dolist (prefix '(("mc" . "converts")))
+    (spacemacs/declare-prefix-for-mode 'f90-mode (car prefix) (cdr prefix)))
+  (spacemacs/set-leader-keys-for-major-mode 'f90-mode
+    ;; converts
+    "cu" 'f90-upcase-keywords
+    "cd" 'f90-downcase-keywords
+    "cc" 'f90-capitalize-keywords)
+
+  ;; racket
+  (evil-set-initial-state 'racket-describe-mode 'evilified)
+  (spacemacs/set-leader-keys-for-major-mode 'racket-mode
+    ;; edit
+    "," 'evil-lisp-state)
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
