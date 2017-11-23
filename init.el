@@ -319,7 +319,7 @@ you should place your code here."
   (exec-path-from-shell-copy-env "https_proxy")
   (bind-keys
    ("s-," . customize)
-   ("s-q" . delete-frame)
+   ("s-w" . delete-frame)
    :map global-map)
   (global-company-mode t)
   )
