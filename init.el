@@ -315,9 +315,11 @@ layers configuration.
 this is the place where most of your configurations should be done. unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
-  ;; default
-  (exec-path-from-shell-copy-env "http_proxy")
-  (exec-path-from-shell-copy-env "https_proxy")
+  ;; functions
+  (defun spacemacs/declare-prefixes-for-mode (mode &rest prefixes)
+      (dotimes (i (truncate (/ (length prefixes) 2)))
+        (let ((n (* i 2)))
+          (spacemacs/declare-prefix-for-mode mode (nth n prefixes) (nth (1+ n) prefixes)))))
 
   ;; macOS
   (bind-keys
@@ -326,8 +328,7 @@ you should place your code here."
    :map global-map)
 
   ;; fortran
-  (dolist (prefix '(("mc" . "converts")))
-    (spacemacs/declare-prefix-for-mode 'f90-mode (car prefix) (cdr prefix)))
+  (spacemacs/declare-prefixes-for-mode 'f90-mode "mc" "converts")
   (spacemacs/set-leader-keys-for-major-mode 'f90-mode
     ;; converts
     "cu" 'f90-upcase-keywords
