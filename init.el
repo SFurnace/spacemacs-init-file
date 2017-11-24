@@ -324,9 +324,11 @@ you should place your code here."
   (global-company-mode t)
 
   ;; keybinds
+  (spacemacs/declare-prefix "o" "custom")
   (spacemacs/set-leader-keys
     "fCc" 'set-buffer-file-coding-system
-    "fCC" 'set-file-name-coding-system)
+    "fCC" 'set-file-name-coding-system
+    "oC" 'comint-clear-buffer)
 
    ;; macOS
  (bind-keys
