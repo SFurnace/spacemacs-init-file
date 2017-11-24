@@ -41,7 +41,6 @@ values."
      better-defaults
      syntax-checking
      (auto-completion :variables
-                      auto-completion-enable-snippets-in-popup t
                       auto-completion-tab-key-behavior 'complete
                       auto-completion-enable-sort-by-usage t)
      racket
@@ -321,8 +320,16 @@ you should place your code here."
         (let ((n (* i 2)))
           (spacemacs/declare-prefix-for-mode mode (nth n prefixes) (nth (1+ n) prefixes)))))
 
-  ;; macOS
-  (bind-keys
+  ;; defaults
+  (global-company-mode t)
+
+  ;; keybinds
+  (spacemacs/set-leader-keys
+    "fCc" 'set-buffer-file-coding-system
+    "fCC" 'set-file-name-coding-system)
+
+   ;; macOS
+ (bind-keys
    ("s-," . customize)
    ("s-w" . delete-frame)
    :map global-map)
