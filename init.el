@@ -295,8 +295,12 @@ values."
    ;; `trailing' to delete only the whitespace at end of lines, `changed'to
    ;; delete only whitespace for changed lines or `nil' to disable cleanup.
    ;; (default nil)
-   dotspacemacs-whitespace-cleanup nil
-   ))
+   dotspacemacs-whitespace-cleanup nil)
+  ;; use super other than meta in leader key in gui emacs.
+  (when (and (display-graphic-p) (eq system-type 'darwin))
+    (setq-default
+     dotspacemacs-emacs-leader-key "s-m"
+     dotspacemacs-major-mode-emacs-leader-key "C-s-m")))
 
 (defun dotspacemacs/user-init ()
   "Initialization function for user code.
@@ -316,9 +320,9 @@ explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
   ;; functions
   (defun spacemacs/declare-prefixes-for-mode (mode &rest prefixes)
-      (dotimes (i (truncate (/ (length prefixes) 2)))
-        (let ((n (* i 2)))
-          (spacemacs/declare-prefix-for-mode mode (nth n prefixes) (nth (1+ n) prefixes)))))
+    (dotimes (i (truncate (/ (length prefixes) 2)))
+      (let ((n (* i 2)))
+        (spacemacs/declare-prefix-for-mode mode (nth n prefixes) (nth (1+ n) prefixes)))))
 
   ;; defaults
   (global-company-mode t)
@@ -328,10 +332,10 @@ you should place your code here."
   (spacemacs/set-leader-keys
     "fCc" 'set-buffer-file-coding-system
     "fCC" 'set-file-name-coding-system
-    "oC" 'comint-clear-buffer)
+    "oc" 'comint-clear-buffer)
 
-   ;; macOS
- (bind-keys
+  ;; macOS
+  (bind-keys
    ("s-," . customize)
    ("s-w" . delete-frame)
    :map global-map)
@@ -349,6 +353,10 @@ you should place your code here."
   (spacemacs/set-leader-keys-for-major-mode 'racket-mode
     ;; edit
     "," 'evil-lisp-state)
+  (spacemacs/set-leader-keys-for-major-mode 'racket-repl-mode
+    "'" 'racket-repl-switch-to-edit
+    "hd" 'racket-describe
+    "hh" 'racket-doc)
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
