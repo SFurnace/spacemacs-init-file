@@ -330,21 +330,29 @@ you should place your code here."
 
   ;; common-lisp
   (setq inferior-lisp-program "ros run")
-  (add-hook 'slime-popup-buffer-mode-hook 'evil-evilified-state)
   (evil-set-initial-state 'slime-fuzzy-completions-mode 'evilified)
+  (evil-set-initial-state 'sldb-mode 'evilified)
+  (evil-set-initial-state 'slime-inspector-mode 'evilified)
+  (add-hook 'slime-popup-buffer-mode-hook 'evil-evilified-state)
+  (add-hook 'slime-inspector-mode-hook
+            (lambda ()
+              (local-set-key (kbd "<") 'slime-inspector-pop)
+              (local-set-key (kbd ">") 'slime-inspector-next)))
   (spacemacs/set-leader-keys-for-major-mode 'lisp-mode
     "," 'evil-lisp-state
-    "'" 'slime-selector
+    "S" 'slime-selector
     "hI" 'slime-inspect)
   (spacemacs/declare-prefixes-for-mode 'slime-repl-mode "h" "help")
   (spacemacs/set-leader-keys-for-major-mode 'slime-repl-mode
     "," 'evil-lisp-state
-    "'" 'slime-selector
+    "S" 'slime-selector
     "hI" 'slime-inspect
     "hi" 'slime-inspect-presentation-at-point
     "hd" 'slime-describe-presentation-at-point
     "hh" 'slime-describe-symbol
-    "oc" 'slime-repl-clear-buffer)
+    "hp" 'slime-apropos-package
+    "ha" 'slime-apropos
+    "c" 'slime-repl-clear-buffer)
 
   ;; fortran
   (spacemacs/declare-prefixes-for-mode 'f90-mode "mc" "converts")
