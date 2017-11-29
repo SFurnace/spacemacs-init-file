@@ -339,20 +339,19 @@ you should place your code here."
               (local-set-key (kbd "<") 'slime-inspector-pop)
               (local-set-key (kbd ">") 'slime-inspector-next)))
   (spacemacs/set-leader-keys-for-major-mode 'lisp-mode
-    "," 'evil-lisp-state
-    "S" 'slime-selector
+    "gs" 'slime-selector
+    "S"  'slime-sync-package-and-default-directory
     "hI" 'slime-inspect)
   (spacemacs/declare-prefixes-for-mode 'slime-repl-mode "h" "help")
   (spacemacs/set-leader-keys-for-major-mode 'slime-repl-mode
-    "," 'evil-lisp-state
-    "S" 'slime-selector
+    "gs" 'slime-selector
+    "S"  'slime-sync-package-and-default-directory
     "hI" 'slime-inspect
     "hi" 'slime-inspect-presentation-at-point
-    "hd" 'slime-describe-presentation-at-point
-    "hh" 'slime-describe-symbol
+    "hh" 'slime-describe-presentation-at-point
+    "hd" 'slime-disassemble-symbol
     "hp" 'slime-apropos-package
-    "ha" 'slime-apropos
-    "c" 'slime-repl-clear-buffer)
+    "ha" 'slime-apropos)
 
   ;; fortran
   (spacemacs/declare-prefixes-for-mode 'f90-mode "mc" "converts")
@@ -391,6 +390,7 @@ you should place your code here."
     (geiser common-lisp-snippets slime-company slime sql-indent sml-mode web-beautify livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor js2-mode js-doc company-tern tern coffee-mode realgud test-simple loc-changes load-relative x86-lookup nasm-mode yapfify pyvenv pytest pyenv-mode py-isort pip-requirements mmm-mode markdown-toc markdown-mode live-py-mode hy-mode dash-functional helm-pydoc gh-md fasd cython-mode company-anaconda anaconda-mode pythonic company-web web-completion-data company-c-headers flycheck-pos-tip pos-tip flycheck disaster cmake-mode clang-format zzz-to-char multiple-cursors web-mode tagedit slim-mode scss-mode sass-mode pug-mode less-css-mode helm-css-scss haml-mode emmet-mode theme-changer powerline spinner hydra parent-mode projectile pkg-info epl flx smartparens iedit anzu evil goto-chg undo-tree highlight f dash s diminish bind-map bind-key packed helm avy helm-core async popup smeargle orgit magit-gitflow helm-gitignore helm-company helm-c-yasnippet gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link fuzzy evil-magit magit magit-popup git-commit with-editor company-statistics company auto-yasnippet yasnippet ac-ispell auto-complete racket-mode faceup unfill reveal-in-osx-finder pbcopy osx-trash osx-dictionary mwim launchctl ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint info+ indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu elisp-slime-nav dumb-jump define-word column-enforce-mode clean-aindent-mode auto-highlight-symbol auto-compile aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line)))
  '(paradox-github-token t)
  '(powerline-default-separator nil)
+ '(safe-local-variable-values (quote ((Package . CCL))))
  '(slime-auto-start (quote always))
  '(slime-repl-history-remove-duplicates t)
  '(tab-always-indent (quote complete)))
