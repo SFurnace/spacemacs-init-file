@@ -48,6 +48,7 @@ values."
      common-lisp
      python
      emacs-lisp
+     fasd
      git
      )
    ;; List of additional packages that will be installed without being
