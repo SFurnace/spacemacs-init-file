@@ -343,13 +343,17 @@ you should place your code here."
     "gs" 'slime-selector
     "S"  'slime-sync-package-and-default-directory
     "hI" 'slime-inspect)
-  (spacemacs/declare-prefixes-for-mode 'slime-repl-mode "h" "help")
+  (spacemacs/declare-prefixes-for-mode
+   'slime-repl-mode
+   "h" "help"
+   "g" "nav"
+   "e" "eval")
   (spacemacs/set-leader-keys-for-major-mode 'slime-repl-mode
     "gs" 'slime-selector
     "S"  'slime-sync-package-and-default-directory
     "hI" 'slime-inspect
     "hi" 'slime-inspect-presentation-at-point
-    "hh" 'slime-describe-presentation-at-point
+    "hh" 'slime-describe-symbol
     "hd" 'slime-disassemble-symbol
     "hp" 'slime-apropos-package
     "ha" 'slime-apropos)
