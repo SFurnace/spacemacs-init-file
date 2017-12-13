@@ -20,10 +20,10 @@ values."
    ;; installation feature and you have to explicitly list a layer in the
    ;; variable `dotspacemacs-configuration-layers' to install it.
    ;; (default 'unused)
-   dotspacemacs-enable-lazy-installation 'unused
+   dotspacemacs-enable-lazy-installation nil
    ;; If non-nil then Spacemacs will ask for confirmation before installing
    ;; a layer lazily. (default t)
-   dotspacemacs-ask-for-lazy-installation t
+   dotspacemacs-ask-for-lazy-installation nil
    ;; If non-nil layers with lazy install support are lazy installed.
    ;; List of additional paths where to look for configuration layers.
    ;; Paths must have a trailing slash (i.e. `~/.mycontribs/')
@@ -45,6 +45,7 @@ values."
                       auto-completion-complete-with-key-sequence-delay 0.02
                       auto-completion-enable-sort-by-usage t)
      scheme
+     markdown
      common-lisp
      python
      emacs-lisp
@@ -330,7 +331,12 @@ you should place your code here."
     "fCC" 'set-file-name-coding-system)
 
   ;; common-lisp
-  (setq inferior-lisp-program "ros run")
+  (setq inferior-lisp-program "ros -m slime run")
+
+  (defun my-indent-lisp-function (name number)
+    (interactive "SFunction Name: \nnIndentation number: ")
+    (put name 'common-lisp-indent-function number))
+
   (evil-set-initial-state 'slime-fuzzy-completions-mode 'evilified)
   (evil-set-initial-state 'sldb-mode 'evilified)
   (evil-set-initial-state 'slime-inspector-mode 'evilified)
@@ -342,7 +348,8 @@ you should place your code here."
   (spacemacs/set-leader-keys-for-major-mode 'lisp-mode
     "gs" 'slime-selector
     "S"  'slime-sync-package-and-default-directory
-    "hI" 'slime-inspect)
+    "hI" 'slime-inspect
+    "I"  'my-indent-lisp-function)
   (spacemacs/declare-prefixes-for-mode
    'slime-repl-mode
    "h" "help"
@@ -351,6 +358,7 @@ you should place your code here."
   (spacemacs/set-leader-keys-for-major-mode 'slime-repl-mode
     "gs" 'slime-selector
     "S"  'slime-sync-package-and-default-directory
+    "I"  'my-indent-lisp-function
     "hI" 'slime-inspect
     "hi" 'slime-inspect-presentation-at-point
     "hh" 'slime-describe-symbol
@@ -365,6 +373,9 @@ you should place your code here."
     "cu" 'f90-upcase-keywords
     "cd" 'f90-downcase-keywords
     "cc" 'f90-capitalize-keywords)
+
+  ;; scheme
+  (setf (nthcdr 2 (assoc "geiser" spacemacs-repl-list)) 'switch-to-geiser)
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
@@ -392,7 +403,7 @@ you should place your code here."
  '(ns-command-modifier (quote super))
  '(package-selected-packages
    (quote
-    (geiser common-lisp-snippets slime-company slime sql-indent sml-mode web-beautify livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor js2-mode js-doc company-tern tern coffee-mode realgud test-simple loc-changes load-relative x86-lookup nasm-mode yapfify pyvenv pytest pyenv-mode py-isort pip-requirements mmm-mode markdown-toc markdown-mode live-py-mode hy-mode dash-functional helm-pydoc gh-md fasd cython-mode company-anaconda anaconda-mode pythonic company-web web-completion-data company-c-headers flycheck-pos-tip pos-tip flycheck disaster cmake-mode clang-format zzz-to-char multiple-cursors web-mode tagedit slim-mode scss-mode sass-mode pug-mode less-css-mode helm-css-scss haml-mode emmet-mode theme-changer powerline spinner hydra parent-mode projectile pkg-info epl flx smartparens iedit anzu evil goto-chg undo-tree highlight f dash s diminish bind-map bind-key packed helm avy helm-core async popup smeargle orgit magit-gitflow helm-gitignore helm-company helm-c-yasnippet gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link fuzzy evil-magit magit magit-popup git-commit with-editor company-statistics company auto-yasnippet yasnippet ac-ispell auto-complete racket-mode faceup unfill reveal-in-osx-finder pbcopy osx-trash osx-dictionary mwim launchctl ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint info+ indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu elisp-slime-nav dumb-jump define-word column-enforce-mode clean-aindent-mode auto-highlight-symbol auto-compile aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line)))
+    (ghub let-alist geiser common-lisp-snippets slime-company slime sql-indent sml-mode web-beautify livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor js2-mode js-doc company-tern tern coffee-mode realgud test-simple loc-changes load-relative x86-lookup nasm-mode yapfify pyvenv pytest pyenv-mode py-isort pip-requirements mmm-mode markdown-toc markdown-mode live-py-mode hy-mode dash-functional helm-pydoc gh-md fasd cython-mode company-anaconda anaconda-mode pythonic company-web web-completion-data company-c-headers flycheck-pos-tip pos-tip flycheck disaster cmake-mode clang-format zzz-to-char multiple-cursors web-mode tagedit slim-mode scss-mode sass-mode pug-mode less-css-mode helm-css-scss haml-mode emmet-mode theme-changer powerline spinner hydra parent-mode projectile pkg-info epl flx smartparens iedit anzu evil goto-chg undo-tree highlight f dash s diminish bind-map bind-key packed helm avy helm-core async popup smeargle orgit magit-gitflow helm-gitignore helm-company helm-c-yasnippet gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link fuzzy evil-magit magit magit-popup git-commit with-editor company-statistics company auto-yasnippet yasnippet ac-ispell auto-complete racket-mode faceup unfill reveal-in-osx-finder pbcopy osx-trash osx-dictionary mwim launchctl ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint info+ indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu elisp-slime-nav dumb-jump define-word column-enforce-mode clean-aindent-mode auto-highlight-symbol auto-compile aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line)))
  '(paradox-github-token t)
  '(powerline-default-separator nil)
  '(safe-local-variable-values (quote ((Package . CCL))))
