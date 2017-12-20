@@ -47,7 +47,6 @@ values."
      scheme
      markdown
      yaml
-     common-lisp
      python
      emacs-lisp
      fasd
@@ -330,50 +329,6 @@ you should place your code here."
   (spacemacs/set-leader-keys
     "fCc" 'set-buffer-file-coding-system
     "fCC" 'set-file-name-coding-system)
-
-  ;; common-lisp
-  (setq inferior-lisp-program "ros -m slime run")
-
-  (defun my-indent-lisp-function (name number)
-    (interactive "SFunction Name: \nnIndentation number: ")
-    (put name 'common-lisp-indent-function number))
-
-  (evil-set-initial-state 'slime-fuzzy-completions-mode 'evilified)
-  (evil-set-initial-state 'sldb-mode 'evilified)
-  (evil-set-initial-state 'slime-inspector-mode 'evilified)
-  (add-hook 'slime-popup-buffer-mode-hook 'evil-evilified-state)
-  (add-hook 'slime-inspector-mode-hook
-            (lambda ()
-              (local-set-key (kbd "<") 'slime-inspector-pop)
-              (local-set-key (kbd ">") 'slime-inspector-next)))
-  (spacemacs/set-leader-keys-for-major-mode 'lisp-mode
-    "gs" 'slime-selector
-    "S"  'slime-sync-package-and-default-directory
-    "hI" 'slime-inspect
-    "I"  'my-indent-lisp-function)
-  (spacemacs/declare-prefixes-for-mode
-   'slime-repl-mode
-   "h" "help"
-   "g" "nav"
-   "e" "eval")
-  (spacemacs/set-leader-keys-for-major-mode 'slime-repl-mode
-    "gs" 'slime-selector
-    "S"  'slime-sync-package-and-default-directory
-    "I"  'my-indent-lisp-function
-    "hI" 'slime-inspect
-    "hi" 'slime-inspect-presentation-at-point
-    "hh" 'slime-describe-symbol
-    "hd" 'slime-disassemble-symbol
-    "hp" 'slime-apropos-package
-    "ha" 'slime-apropos)
-
-  ;; fortran
-  (spacemacs/declare-prefixes-for-mode 'f90-mode "mc" "converts")
-  (spacemacs/set-leader-keys-for-major-mode 'f90-mode
-    ;; converts
-    "cu" 'f90-upcase-keywords
-    "cd" 'f90-downcase-keywords
-    "cc" 'f90-capitalize-keywords)
 
   ;; scheme
   (setf (nthcdr 2 (assoc "geiser" spacemacs-repl-list)) 'switch-to-geiser)
