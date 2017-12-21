@@ -44,7 +44,9 @@ values."
                       auto-completion-tab-key-behavior 'complete
                       auto-completion-complete-with-key-sequence-delay 0.02
                       auto-completion-enable-sort-by-usage t)
+     common-lisp
      scheme
+     (c-c++ :variables c-c++-enable-clang-support t)
      markdown
      yaml
      python
