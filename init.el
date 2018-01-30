@@ -39,20 +39,11 @@ values."
      osx
      helm
      better-defaults
-     syntax-checking
      (auto-completion :variables
                       auto-completion-tab-key-behavior 'complete
                       auto-completion-complete-with-key-sequence-delay 0.02
                       auto-completion-enable-sort-by-usage t)
-     common-lisp
-     scheme
-     (c-c++ :variables c-c++-enable-clang-support t)
-     markdown
-     yaml
-     python
-     emacs-lisp
-     fasd
-     git
+     racket
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
@@ -332,45 +323,15 @@ you should place your code here."
     "fCc" 'set-buffer-file-coding-system
     "fCC" 'set-file-name-coding-system)
 
-
-  ;; common-lisp
-  (setq inferior-lisp-program "lw-tty")
-
-  (defun my-indent-lisp-function (name number)
-    (interactive "SFunction Name: \nnIndentation number: ")
-    (put name 'common-lisp-indent-function number))
-
-  (evil-set-initial-state 'slime-fuzzy-completions-mode 'evilified)
-  (evil-set-initial-state 'sldb-mode 'evilified)
-  (evil-set-initial-state 'slime-inspector-mode 'evilified)
-  (add-hook 'slime-popup-buffer-mode-hook 'evil-evilified-state)
-  (add-hook 'slime-inspector-mode-hook
-            (lambda ()
-              (local-set-key (kbd "<") 'slime-inspector-pop)
-              (local-set-key (kbd ">") 'slime-inspector-next)))
-  (spacemacs/set-leader-keys-for-major-mode 'lisp-mode
-    "gs" 'slime-selector
-    "S"  'slime-sync-package-and-default-directory
-    "hI" 'slime-inspect
-    "I"  'my-indent-lisp-function)
-  (spacemacs/declare-prefixes-for-mode
-   'slime-repl-mode
-   "h" "help"
-   "g" "nav"
-   "e" "eval")
-  (spacemacs/set-leader-keys-for-major-mode 'slime-repl-mode
-    "gs" 'slime-selector
-    "S"  'slime-sync-package-and-default-directory
-    "I"  'my-indent-lisp-function
-    "hI" 'slime-inspect
-    "hi" 'slime-inspect-presentation-at-point
-    "hh" 'slime-describe-symbol
-    "hd" 'slime-disassemble-symbol
-    "hp" 'slime-apropos-package
-    "ha" 'slime-apropos)
-
-  ;; scheme
-  (setf (nthcdr 2 (assoc "geiser" spacemacs-repl-list)) 'switch-to-geiser)
+  ;; racket
+  (evil-set-initial-state 'racket-describe-mode 'evilified)
+  (spacemacs/set-leader-keys-for-major-mode 'racket-mode
+    ;; edit
+    "," 'evil-lisp-state)
+  (spacemacs/set-leader-keys-for-major-mode 'racket-repl-mode
+    "'" 'racket-repl-switch-to-edit
+    "hd" 'racket-describe
+    "hh" 'racket-doc)
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
@@ -384,12 +345,6 @@ you should place your code here."
  '(column-number-mode t)
  '(company-show-numbers t)
  '(evil-want-Y-yank-to-eol nil)
- '(geiser-active-implementations (quote (chez)))
- '(geiser-chez-binary "chez")
- '(geiser-mode-company-p nil)
- '(geiser-mode-smart-tab-p t)
- '(geiser-mode-start-repl-p t)
- '(geiser-repl-company-p nil)
  '(mac-mouse-wheel-smooth-scroll nil)
  '(mouse-scroll-delay 0.1)
  '(mouse-wheel-progressive-speed nil)
