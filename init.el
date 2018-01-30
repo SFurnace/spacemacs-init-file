@@ -39,10 +39,6 @@ values."
      osx
      helm
      better-defaults
-     (auto-completion :variables
-                      auto-completion-tab-key-behavior 'complete
-                      auto-completion-complete-with-key-sequence-delay 0.02
-                      auto-completion-enable-sort-by-usage t)
      racket
      )
    ;; List of additional packages that will be installed without being
@@ -310,7 +306,6 @@ you should place your code here."
         (spacemacs/declare-prefix-for-mode mode (nth n prefixes) (nth (1+ n) prefixes)))))
 
   ;; defaults
-  (global-company-mode t)
   (global-evil-mc-mode t)
   (bind-keys
    ("s-," . customize)
@@ -343,7 +338,6 @@ you should place your code here."
  ;; If there is more than one, they won't work right.
  '(blink-cursor-mode nil)
  '(column-number-mode t)
- '(company-show-numbers t)
  '(evil-want-Y-yank-to-eol nil)
  '(mac-mouse-wheel-smooth-scroll nil)
  '(mouse-scroll-delay 0.1)
@@ -360,8 +354,6 @@ you should place your code here."
    (quote
     ((rcs-header . "$Header: /hope/lwhope1-cam/hope.0/compound/33/LISPcapi-examples/RCS/applications:simple-symbol-browser.lisp,v 1.9.1.1 2017/01/19 11:50:05 martin Exp $")
      (Package . CCL))))
- '(slime-auto-start (quote always))
- '(slime-repl-history-remove-duplicates t)
  '(tab-always-indent (quote complete)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
