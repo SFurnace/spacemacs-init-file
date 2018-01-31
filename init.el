@@ -113,7 +113,7 @@ values."
    ;; True if the home buffer should respond to resize events.
    dotspacemacs-startup-buffer-responsive t
    ;; Default major mode of the scratch buffer (default `text-mode')
-   dotspacemacs-scratch-mode 'text-mode
+   dotspacemacs-scratch-mode 'racket-mode
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
@@ -299,17 +299,12 @@ layers configuration.
 this is the place where most of your configurations should be done. unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
-  ;; functions
-  (defun spacemacs/declare-prefixes-for-mode (mode &rest prefixes)
-    (dotimes (i (truncate (/ (length prefixes) 2)))
-      (let ((n (* i 2)))
-        (spacemacs/declare-prefix-for-mode mode (nth n prefixes) (nth (1+ n) prefixes)))))
-
   ;; defaults
   (global-evil-mc-mode t)
   (bind-keys
    ("s-," . customize)
    ("s-w" . delete-frame)
+   ("<f12>" . lisp-state-toggle-lisp-state)
    :map global-map)
 
   ;; keybinds
@@ -320,13 +315,36 @@ you should place your code here."
 
   ;; racket
   (evil-set-initial-state 'racket-describe-mode 'evilified)
-  (spacemacs/set-leader-keys-for-major-mode 'racket-mode
-    ;; edit
-    "," 'evil-lisp-state)
-  (spacemacs/set-leader-keys-for-major-mode 'racket-repl-mode
-    "'" 'racket-repl-switch-to-edit
-    "hd" 'racket-describe
-    "hh" 'racket-doc)
+
+  (bind-keys
+   ("s-r" . racket-run)
+   ("s-R" . racket-run-with-errortrace)
+   ("s-P" . racket-profile)
+   ("s-L" . racket-logger)
+   ("s-t" . racket-test)
+   ("C-x C-r" . racket-send-region)
+   ("C-x C-d" . racket-send-definition)
+   ("C-x C-x" . racket-send-last-sexp)
+   ("M-." . racket-visit-definition)
+   ("C-M-." . racket-visit-module)
+   ("M-," . racket-unvisit)
+   ("s-d" . racket-describe)
+   ("s-D" . racket-doc)
+   ("s-p" . racket-cycle-paren-shapes)
+   ("<f6>" . racket-check-syntax-mode)
+   ("s-A" . racket-align)
+   ("s-e" . racket-expand-last-sexp)
+   ("s-E" . racket-expand-again)
+   :map racket-mode-map)
+
+  (bind-keys
+   ("s-d" . racket-describe)
+   ("s-D" . racket-doc)
+   ("s-p" . racket-cycle-paren-shapes)
+   ("s-A" . racket-align)
+   ("s-e" . racket-expand-last-sexp)
+   ("s-E" . racket-expand-again)
+   :map racket-repl-mode-map)
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
@@ -339,10 +357,12 @@ you should place your code here."
  '(blink-cursor-mode nil)
  '(column-number-mode t)
  '(evil-want-Y-yank-to-eol nil)
- '(mac-mouse-wheel-smooth-scroll nil)
- '(mouse-scroll-delay 0.1)
- '(mouse-wheel-progressive-speed nil)
- '(mouse-wheel-scroll-amount (quote (3 ((shift) . 1) ((control)))))
+ '(initial-frame-alist
+   (quote
+    ((vertical-scroll-bars)
+     (height . 40)
+     (width . 120))))
+ '(initial-major-mode (quote racket-mode))
  '(ns-alternate-modifier (quote meta))
  '(ns-command-modifier (quote super))
  '(package-selected-packages
@@ -350,10 +370,6 @@ you should place your code here."
     (zenburn-theme zen-and-art-theme underwater-theme ujelly-theme twilight-theme twilight-bright-theme twilight-anti-bright-theme toxi-theme tao-theme tangotango-theme tango-plus-theme tango-2-theme sunny-day-theme sublime-themes subatomic256-theme subatomic-theme spacegray-theme soothe-theme solarized-theme soft-stone-theme soft-morning-theme soft-charcoal-theme smyx-theme seti-theme reverse-theme railscasts-theme purple-haze-theme professional-theme planet-theme phoenix-dark-pink-theme phoenix-dark-mono-theme organic-green-theme omtose-phellack-theme oldlace-theme occidental-theme obsidian-theme noctilux-theme naquadah-theme mustang-theme monokai-theme monochrome-theme molokai-theme moe-theme minimal-theme material-theme majapahit-theme madhat2r-theme lush-theme light-soap-theme jbeans-theme jazz-theme ir-black-theme inkpot-theme heroku-theme hemisu-theme hc-zenburn-theme gruvbox-theme gruber-darker-theme grandshell-theme gotham-theme gandalf-theme flatui-theme flatland-theme farmhouse-theme espresso-theme dracula-theme django-theme darktooth-theme autothemer darkokai-theme darkmine-theme darkburn-theme dakrone-theme cyberpunk-theme color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized clues-theme cherry-blossom-theme busybee-theme bubbleberry-theme birds-of-paradise-plus-theme badwolf-theme apropospriate-theme anti-zenburn-theme ample-zen-theme ample-theme alect-themes afternoon-theme yaml-mode ghub let-alist geiser common-lisp-snippets slime-company slime sql-indent sml-mode web-beautify livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor js2-mode js-doc company-tern tern coffee-mode realgud test-simple loc-changes load-relative x86-lookup nasm-mode yapfify pyvenv pytest pyenv-mode py-isort pip-requirements mmm-mode markdown-toc markdown-mode live-py-mode hy-mode dash-functional helm-pydoc gh-md fasd cython-mode company-anaconda anaconda-mode pythonic company-web web-completion-data company-c-headers flycheck-pos-tip pos-tip flycheck disaster cmake-mode clang-format zzz-to-char multiple-cursors web-mode tagedit slim-mode scss-mode sass-mode pug-mode less-css-mode helm-css-scss haml-mode emmet-mode theme-changer powerline spinner hydra parent-mode projectile pkg-info epl flx smartparens iedit anzu evil goto-chg undo-tree highlight f dash s diminish bind-map bind-key packed helm avy helm-core async popup smeargle orgit magit-gitflow helm-gitignore helm-company helm-c-yasnippet gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link fuzzy evil-magit magit magit-popup git-commit with-editor company-statistics company auto-yasnippet yasnippet ac-ispell auto-complete racket-mode faceup unfill reveal-in-osx-finder pbcopy osx-trash osx-dictionary mwim launchctl ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint info+ indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu elisp-slime-nav dumb-jump define-word column-enforce-mode clean-aindent-mode auto-highlight-symbol auto-compile aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line)))
  '(paradox-github-token t)
  '(powerline-default-separator nil)
- '(safe-local-variable-values
-   (quote
-    ((rcs-header . "$Header: /hope/lwhope1-cam/hope.0/compound/33/LISPcapi-examples/RCS/applications:simple-symbol-browser.lisp,v 1.9.1.1 2017/01/19 11:50:05 martin Exp $")
-     (Package . CCL))))
  '(tab-always-indent (quote complete)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
