@@ -335,6 +335,7 @@ you should place your code here."
    ("s-P" . racket-profile)
    ("s-L" . racket-logger)
    ("s-t" . racket-test)
+   ("s-T" . spacemacs/racket-test-with-coverage)
    ("C-x C-r" . racket-send-region)
    ("C-x C-d" . racket-send-definition)
    ("C-x C-x" . racket-send-last-sexp)
