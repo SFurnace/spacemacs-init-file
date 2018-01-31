@@ -40,10 +40,6 @@ values."
      helm
      better-defaults
      racket
-     (auto-completion :variables
-                      auto-completion-tab-key-behavior 'complete
-                      auto-completion-complete-with-key-sequence-delay 0.02
-                      auto-completion-enable-sort-by-usage t)
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
@@ -322,7 +318,6 @@ you should place your code here."
   (add-hook 'racket-repl-mode-hook
             (lambda ()
               (prettify-symbols-mode)
-              (company-mode)
               (smartparens-mode -1)))
   (add-hook 'racket-check-syntax-mode-hook 'evil-insert-state)
   (evil-set-initial-state 'racket-describe-mode 'evilified)
@@ -369,13 +364,7 @@ you should place your code here."
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(column-number-mode t)
- '(company-show-numbers t)
  '(evil-want-Y-yank-to-eol nil)
- '(initial-frame-alist
-   (quote
-    ((vertical-scroll-bars)
-     (height . 40)
-     (width . 120))))
  '(ns-alternate-modifier (quote meta))
  '(ns-command-modifier (quote super))
  '(package-selected-packages
