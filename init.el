@@ -316,6 +316,16 @@ you should place your code here."
   (global-evil-mc-mode t)
 
   ;; racket
+  (evil-set-initial-state 'racket-describe-mode 'evilified)
+  (evil-set-initial-state 'racket-profile-mode 'insert)
+  (evil-set-initial-state 'racket-logger-mode 'insert)
+
+  (defun open-file-in-drracket ()
+    (interactive)
+    (if buffer-file-name
+        (call-process-shell-command (format "drracket %s" buffer-file-name))
+      (message "File nil does not exist.")))
+
   (add-hook 'racket-mode-hook
             (lambda ()
               (prettify-symbols-mode)
@@ -327,6 +337,8 @@ you should place your code here."
               (bind-keys
                :map racket-mode-map
                ("<f8>" . lisp-state-toggle-lisp-state)
+               ("<f9>" . hs-toggle-hiding)
+               ("<f10>" . open-file-in-drracket)
                ("s-r" . racket-run)
                ("s-R" . racket-run-with-errortrace)
                ("s-P" . racket-profile)
@@ -346,7 +358,7 @@ you should place your code here."
                ("s-A" . racket-align)
                ("s-e" . racket-expand-last-sexp)
                ("s-E" . racket-expand-again))))
-  (add-hook 'racket-mode-hook 'prettify-symbols-mode)
+
   (add-hook 'racket-repl-mode-hook
             (lambda ()
               (prettify-symbols-mode)
@@ -360,9 +372,6 @@ you should place your code here."
                ("s-A" . racket-align)
                ("s-e" . racket-expand-last-sexp)
                ("s-E" . racket-expand-again))))
-  (evil-set-initial-state 'racket-describe-mode 'evilified)
-  (evil-set-initial-state 'racket-profile-mode 'insert)
-  (evil-set-initial-state 'racket-logger-mode 'insert)
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
