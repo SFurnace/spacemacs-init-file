@@ -45,7 +45,7 @@ values."
    ;; wrapped in a layer. If you need some configuration for these
    ;; packages, then consider creating a layer. You can also put the
    ;; configuration in `dotspacemacs/user-config'.
-   dotspacemacs-additional-packages '()
+   dotspacemacs-additional-packages '(yasnippet helm-c-yasnippet)
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
    ;; A list of packages that will not be installed and loaded.
@@ -300,60 +300,69 @@ this is the place where most of your configurations should be done. unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
   ;; defaults
-  (global-evil-mc-mode t)
-  (bind-keys
-   ("s-," . customize)
-   ("s-w" . delete-frame)
-   ("<f12>" . lisp-state-toggle-lisp-state)
-   :map global-map)
-
-  ;; keybinds
   (spacemacs/declare-prefix "o" "custom")
   (spacemacs/set-leader-keys
     "fCc" 'set-buffer-file-coding-system
-    "fCC" 'set-file-name-coding-system)
+    "fCC" 'set-file-name-coding-system
+    "os"  'helm-yas-complete)
+
+  (spacemacs|diminish yas-minor-mode " ⓨ" " y")
+
+  (bind-keys
+   :map global-map
+   ("s-," . customize)
+   ("s-w" . delete-frame))
+
+  (global-evil-mc-mode t)
 
   ;; racket
+  (add-hook 'racket-mode-hook
+            (lambda ()
+              (prettify-symbols-mode)
+              (yas-minor-mode)
+              (yas-reload-all)
+              (define-key yas-minor-mode-map (kbd "<tab>") nil)
+              (define-key yas-minor-mode-map (kbd "TAB") nil)
+              (define-key yas-minor-mode-map (kbd "<f7>") #'yas-expand)
+              (bind-keys
+               :map racket-mode-map
+               ("<f8>" . lisp-state-toggle-lisp-state)
+               ("s-r" . racket-run)
+               ("s-R" . racket-run-with-errortrace)
+               ("s-P" . racket-profile)
+               ("s-L" . racket-logger)
+               ("s-t" . racket-test)
+               ("s-T" . spacemacs/racket-test-with-coverage)
+               ("C-x C-r" . racket-send-region)
+               ("C-x C-d" . racket-send-definition)
+               ("C-x C-x" . racket-send-last-sexp)
+               ("M-." . racket-visit-definition)
+               ("C-M-." . racket-visit-module)
+               ("M-," . racket-unvisit)
+               ("s-d" . racket-describe)
+               ("s-D" . racket-doc)
+               ("s-p" . racket-cycle-paren-shapes)
+               ("<f6>" . racket-check-syntax-mode)
+               ("s-A" . racket-align)
+               ("s-e" . racket-expand-last-sexp)
+               ("s-E" . racket-expand-again))))
   (add-hook 'racket-mode-hook 'prettify-symbols-mode)
   (add-hook 'racket-repl-mode-hook
             (lambda ()
               (prettify-symbols-mode)
-              (smartparens-mode -1)))
-  (add-hook 'racket-check-syntax-mode-hook 'evil-insert-state)
+              (smartparens-mode -1)
+              (bind-keys
+               :map racket-repl-mode-map
+               ("<f8>" . lisp-state-toggle-lisp-state)
+               ("s-d" . racket-describe)
+               ("s-D" . racket-doc)
+               ("s-p" . racket-cycle-paren-shapes)
+               ("s-A" . racket-align)
+               ("s-e" . racket-expand-last-sexp)
+               ("s-E" . racket-expand-again))))
   (evil-set-initial-state 'racket-describe-mode 'evilified)
   (evil-set-initial-state 'racket-profile-mode 'insert)
   (evil-set-initial-state 'racket-logger-mode 'insert)
-
-  (bind-keys
-   ("s-r" . racket-run)
-   ("s-R" . racket-run-with-errortrace)
-   ("s-P" . racket-profile)
-   ("s-L" . racket-logger)
-   ("s-t" . racket-test)
-   ("s-T" . spacemacs/racket-test-with-coverage)
-   ("C-x C-r" . racket-send-region)
-   ("C-x C-d" . racket-send-definition)
-   ("C-x C-x" . racket-send-last-sexp)
-   ("M-." . racket-visit-definition)
-   ("C-M-." . racket-visit-module)
-   ("M-," . racket-unvisit)
-   ("s-d" . racket-describe)
-   ("s-D" . racket-doc)
-   ("s-p" . racket-cycle-paren-shapes)
-   ("<f6>" . racket-check-syntax-mode)
-   ("s-A" . racket-align)
-   ("s-e" . racket-expand-last-sexp)
-   ("s-E" . racket-expand-again)
-   :map racket-mode-map)
-
-  (bind-keys
-   ("s-d" . racket-describe)
-   ("s-D" . racket-doc)
-   ("s-p" . racket-cycle-paren-shapes)
-   ("s-A" . racket-align)
-   ("s-e" . racket-expand-last-sexp)
-   ("s-E" . racket-expand-again)
-   :map racket-repl-mode-map)
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
@@ -365,6 +374,7 @@ you should place your code here."
  ;; If there is more than one, they won't work right.
  '(column-number-mode t)
  '(evil-want-Y-yank-to-eol nil)
+ '(helm-yas-space-match-any-greedy t)
  '(ns-alternate-modifier (quote meta))
  '(ns-command-modifier (quote super))
  '(package-selected-packages
@@ -373,7 +383,8 @@ you should place your code here."
  '(paradox-github-token t)
  '(powerline-default-separator nil)
  '(prettify-symbols-alist (quote (("lambda" . 955))) t)
- '(tab-always-indent (quote complete)))
+ '(tab-always-indent (quote complete))
+ '(yas-snippet-dirs (quote ("/Users/drcz/.spacemacs.d/snippets"))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
