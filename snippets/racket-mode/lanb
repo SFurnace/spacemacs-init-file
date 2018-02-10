@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: lanb
+# key: #lb
+# --
+#lang racket/base$0

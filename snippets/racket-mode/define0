@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: define0
+# key: #def0
+# --
+(define (${1:name})
+  $0)

@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: define-class
+# key: #defc
+# --
+(define ${1:name%}
+  (class ${2:object%}
+    (super-new)
+    $0))

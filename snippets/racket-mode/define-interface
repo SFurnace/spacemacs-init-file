@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: define-interface
+# key: #defi
+# --
+(define ${1:name<%>} (interface ($2) $0))

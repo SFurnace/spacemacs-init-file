@@ -331,14 +331,11 @@ you should place your code here."
               (prettify-symbols-mode)
               (yas-minor-mode)
               (yas-reload-all)
-              (define-key yas-minor-mode-map (kbd "<tab>") nil)
-              (define-key yas-minor-mode-map (kbd "TAB") nil)
-              (define-key yas-minor-mode-map (kbd "<f7>") #'yas-expand)
               (bind-keys
                :map racket-mode-map
-               ("<f8>" . lisp-state-toggle-lisp-state)
-               ("<f9>" . hs-toggle-hiding)
-               ("<f10>" . open-file-in-drracket)
+               ("s-C" . racket-check-syntax-mode)
+               ("s-m" . hs-toggle-hiding)
+               ("s-O" . open-file-in-drracket)
                ("s-r" . racket-run)
                ("s-R" . racket-run-with-errortrace)
                ("s-P" . racket-profile)
@@ -354,8 +351,7 @@ you should place your code here."
                ("s-d" . racket-describe)
                ("s-D" . racket-doc)
                ("s-p" . racket-cycle-paren-shapes)
-               ("<f6>" . racket-check-syntax-mode)
-               ("s-A" . racket-align)
+               ("s-|" . racket-align)
                ("s-e" . racket-expand-last-sexp)
                ("s-E" . racket-expand-again))))
 
@@ -365,13 +361,9 @@ you should place your code here."
               (smartparens-mode -1)
               (bind-keys
                :map racket-repl-mode-map
-               ("<f8>" . lisp-state-toggle-lisp-state)
                ("s-d" . racket-describe)
                ("s-D" . racket-doc)
-               ("s-p" . racket-cycle-paren-shapes)
-               ("s-A" . racket-align)
-               ("s-e" . racket-expand-last-sexp)
-               ("s-E" . racket-expand-again))))
+               ("s-p" . racket-cycle-paren-shapes))))
   )
 
 ;; Do not write anything past this comment. This is where Emacs will

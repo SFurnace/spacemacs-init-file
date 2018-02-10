@@ -1,5 +1,5 @@
 # -*- mode: snippet -*-
 # name: defvar
-# key: defv
+# key: #defv
 # --
 (define ${1:name} ${2:value})$0

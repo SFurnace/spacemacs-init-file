@@ -1,6 +1,6 @@
 # -*- mode: snippet -*-
 # name: defun
-# key: def
+# key: #defu
 # --
 (define (${1:name} ${2:args})
   $0)
