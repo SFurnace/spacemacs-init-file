@@ -10,3 +10,4 @@
 (command-bind "?:a:semicolon" "uncomment")
 (command-bind "d:semicolon" "comment-out")
 (command-bind "c:c;c:z" "shift-focus")
+(command-bind "c:space" "auto-complete")
