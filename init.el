@@ -113,7 +113,7 @@ values."
    ;; True if the home buffer should respond to resize events.
    dotspacemacs-startup-buffer-responsive t
    ;; Default major mode of the scratch buffer (default `text-mode')
-   dotspacemacs-scratch-mode 'racket-mode
+   dotspacemacs-scratch-mode 'text-mode
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
@@ -124,7 +124,7 @@ values."
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
    dotspacemacs-default-font '("Source Code Pro"
-                               :size 15
+                               :size 17
                                :weight normal
                                :width normal
                                :powerline-scale 1.1)
@@ -257,8 +257,8 @@ values."
    ;; If non-nil smartparens-strict-mode will be enabled in programming modes.
    ;; (default nil)
    dotspacemacs-smartparens-strict-mode nil
-   ;; If non-nil pressing the closing parenthesis `)' key in insert mode passes
-   ;; over any automatically added closing parenthesis, bracket, quote, etc…
+   ;; If non-nil pressing the closing parenthinsertesis `)' key in insert mode passes
+   ;; over any automatically added closing parentheinsertsis, bracket, quote, etc…
    ;; This can be temporary disabled by pressing `C-q' before `)'. (default nil)
    dotspacemacs-smart-closing-parenthesis nil
    ;; Select a scope to highlight delimiters. Possible values are `any',
@@ -322,14 +322,20 @@ you should place your code here."
 
   ;; racket
   (evil-set-initial-state 'racket-describe-mode 'evilified)
-  (evil-set-initial-state 'racket-profile-mode 'insert)
-  (evil-set-initial-state 'racket-logger-mode 'insert)
+  (evil-set-initial-state 'racket-profile-mode 'evilified)
+  (evil-set-initial-state 'racket-logger-mode 'evilified)
+  (evil-set-initial-state 'racket-stepper-mode 'insert)
+  (evil-set-initial-state 'racket-check-syntax-mode 'insert)
 
   (defun open-file-in-drracket ()
     (interactive)
     (if buffer-file-name
         (call-process-shell-command (format "open -a DrRacket '%s'" buffer-file-name))
       (message "File nil does not exist.")))
+
+  (defun set-racket-indentation (name indentation)
+    (interactive "MProcedure Name: \nnIndentation: ")
+    (put (intern name) 'racket-indent-function indentation))
 
   (add-hook 'racket-mode-hook
             (lambda ()
@@ -338,6 +344,8 @@ you should place your code here."
               (yas-reload-all)
               (bind-keys
                :map racket-mode-map
+               (";"   . sp-comment)
+               ("s-i" . set-racket-indentation)
                ("s-C" . racket-check-syntax-mode)
                ("s-m" . hs-toggle-hiding)
                ("s-O" . open-file-in-drracket)
@@ -357,8 +365,7 @@ you should place your code here."
                ("s-D" . racket-doc)
                ("s-p" . racket-cycle-paren-shapes)
                ("s-l" . racket-align)
-               ("s-e" . racket-expand-last-sexp)
-               ("s-E" . racket-expand-again))))
+               ("s-E" . racket-expand-file))))
 
   (add-hook 'racket-repl-mode-hook
             (lambda ()
@@ -379,11 +386,6 @@ you should place your code here."
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(column-number-mode t)
- '(default-frame-alist
-    (quote
-     ((buffer-predicate . spacemacs/useful-buffer-p)
-      (font . "-*-Source Code Pro-normal-normal-normal-*-15-*-*-*-m-0-iso10646-1")
-      (vertical-scroll-bars))))
  '(evil-want-Y-yank-to-eol nil)
  '(helm-yas-space-match-any-greedy t)
  '(ns-alternate-modifier (quote meta))
