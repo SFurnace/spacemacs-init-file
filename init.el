@@ -38,13 +38,7 @@ values."
      ;; ----------------------------------------------------------------
      osx
      helm
-     (auto-completion
-      :variables
-      auto-completion-tab-key-behavior 'complete
-      auto-completion-enable-sort-by-usage t)
-     git
      racket
-     (c-c++ :variables c-c++-enable-clang-support t)
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
@@ -349,7 +343,6 @@ you should place your code here."
               (yas-reload-all)
               (bind-keys
                :map racket-mode-map
-               (";"   . sp-comment)
                ("s-i" . set-racket-indentation)
                ("s-C" . racket-check-syntax-mode)
                ("s-m" . hs-toggle-hiding)
@@ -360,9 +353,6 @@ you should place your code here."
                ("s-L" . racket-logger)
                ("s-t" . racket-test)
                ("s-T" . racket-raco-test)
-               ("C-x C-r" . racket-send-region)
-               ("C-x C-d" . racket-send-definition)
-               ("C-x C-x" . racket-send-last-sexp)
                ("M-." . racket-visit-definition)
                ("C-M-." . racket-visit-module)
                ("M-," . racket-unvisit)
@@ -401,6 +391,8 @@ you should place your code here."
  '(paradox-github-token t)
  '(prettify-symbols-alist (quote (("lambda" . 955))) t)
  '(racket-error-context (quote high))
+ '(racket-memory-limit 4096)
+ '(racket-use-repl-submit-predicate t)
  '(tab-always-indent (quote complete))
  '(yas-snippet-dirs (quote ("/Users/drcz/.spacemacs.d/snippets"))))
 (custom-set-faces
